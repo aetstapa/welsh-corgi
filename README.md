@@ -14,14 +14,14 @@ npm i welsh-corgi
 
 ## Basic Usage
 
-```
-import 'welsh-corgi/dist/index.css';
-import { corgi } from 'welsh-corgi';
+```typescript
+import "welsh-corgi/dist/index.css";
+import { corgi } from "welsh-corgi";
 
-corgi.info('This is a INFO message!');
-corgi.success('This is a SUCCESS message!');
-corgi.warn('This is a WARNING message!');
-corgi.error('This is a ERROR message!');
+corgi.info("This is a INFO message!");
+corgi.success("This is a SUCCESS message!");
+corgi.warn("This is a WARNING message!");
+corgi.error("This is a ERROR message!");
 ```
 
 ## Advanced Options

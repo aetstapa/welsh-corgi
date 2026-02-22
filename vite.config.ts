@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import path from 'path';
-import dts from 'vite-plugin-dts';
 import nesting from 'postcss-nesting';
 import autoprefixer from 'autoprefixer';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
     server: {
@@ -10,12 +10,12 @@ export default defineConfig({
     },
     build: {
         lib: {
-            entry: path.resolve(__dirname, 'src/poptip.ts'),
-            name: 'poptip',
-            fileName: 'poptip',
+            entry: path.resolve(__dirname, 'src/index.ts'),
+            name: 'wc',
+            fileName: 'index',
         },
     },
-    plugins: [dts({ include: [path.resolve(__dirname, 'src/poptip.ts')] })],
+    plugins: [dts({ include: [path.resolve(__dirname, 'src/index.ts')] })],
     css: {
         postcss: {
             plugins: [nesting, autoprefixer],

@@ -1,17 +1,17 @@
-import poptip from './poptip';
+import { corgi } from '.';
 
 document.getElementById('info')?.addEventListener('click', () => {
-    poptip.info('hello', { live: 0 });
+    corgi.bark('hello', { live: 0 });
 });
 
 document.getElementById('success')?.addEventListener('click', () => {
-    poptip.success('success', { live: 0 });
+    corgi.yip('success', { live: 0 });
 });
 
 document.getElementById('warn')?.addEventListener('click', () => {
-    poptip.warn('This is warning message', { title: 'warning!!!' });
+    corgi.gruff('This is warning message', { title: 'warning!!!' });
 });
 
 document.getElementById('error')?.addEventListener('click', () => {
-    poptip.error({ html: '<a href="">error</a>' });
+    corgi.snarl({ html: '<a href="">error</a>' });
 });

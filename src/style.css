@@ -1,4 +1,4 @@
-.poptip-wrapper {
+.corgi-wrapper {
     position: fixed;
     width: 100%;
     padding: 0 10px;
@@ -11,12 +11,12 @@
     pointer-events: none;
     opacity: 1;
 
-    &.poptip-hidden {
+    &.corgi-hidden {
         transform: translate(0, -50px);
         opacity: 0;
     }
 }
-.poptip {
+.corgi {
     box-sizing: border-box;
     position: relative;
     left: 50%;
@@ -69,16 +69,16 @@
         }
     }
 }
-.poptip-main {
+.corgi-main {
     box-sizing: border-box;
     flex-grow: 1;
 }
-.poptip-title {
+.corgi-title {
     box-sizing: border-box;
     padding-bottom: 10px;
     font-size: 1.25rem;
 }
-.poptip-close {
+.corgi-close {
     display: inline-block;
     width: 26px;
     height: 26px;
@@ -92,7 +92,7 @@
     transition: background-color 0.3s ease-in-out;
     margin-left: 8px;
 }
-.poptip-close:hover {
+.corgi-close:hover {
     opacity: 1;
     background-color: #dddddd;
 }

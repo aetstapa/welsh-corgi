@@ -24,7 +24,7 @@ interface Config {
 
 type OtherConfig = Omit<Config, 'type' | 'content'>;
 
-const hiddenClass = 'poptip-hidden';
+const hiddenClass = 'corgi-hidden';
 const gap = 20;
 const live = 2500;
 const pops: PopItem[] = [];
@@ -68,10 +68,10 @@ function removeById(id: number) {
 
 function createPopElement(id: number, config: Config): HTMLElement {
     const wrapper = document.createElement('div');
-    wrapper.className = `poptip-wrapper ${hiddenClass}`;
+    wrapper.className = `corgi-wrapper ${hiddenClass}`;
 
     const el = document.createElement('div');
-    el.className = `poptip ${config.type}`;
+    el.className = `corgi ${config.type}`;
     wrapper.appendChild(el);
 
     const flagEl = document.createElement('span');
@@ -79,24 +79,24 @@ function createPopElement(id: number, config: Config): HTMLElement {
     el.appendChild(flagEl);
 
     const mainEl = document.createElement('div');
-    mainEl.className = 'poptip-main';
+    mainEl.className = 'corgi-main';
     el.appendChild(mainEl);
 
     if (config.title) {
         const titleEl = document.createElement('div');
-        titleEl.className = 'poptip-title';
+        titleEl.className = 'corgi-title';
         mainEl.appendChild(titleEl);
         insertRichContent(titleEl, config.title);
     }
 
     const contentEl = document.createElement('div');
-    contentEl.className = 'poptip-content';
+    contentEl.className = 'corgi-content';
     insertRichContent(contentEl, config.content);
     mainEl.appendChild(contentEl);
 
     if ((config.live ?? live) <= 0) {
         const closeEl = document.createElement('span');
-        closeEl.className = 'poptip-close';
+        closeEl.className = 'corgi-close';
         closeEl.innerText = '×';
         el.appendChild(closeEl);
 
@@ -142,11 +142,16 @@ function generate(
     };
 }
 
-const poptip = {
+export const corgi = {
+    bark: generate(MsgType.Info),
+    yip: generate(MsgType.Success),
+    gruff: generate(MsgType.Warn),
+    snarl: generate(MsgType.Error),
+};
+
+export const welsh = {
     info: generate(MsgType.Info),
     success: generate(MsgType.Success),
     warn: generate(MsgType.Warn),
     error: generate(MsgType.Error),
 };
-
-export default poptip;

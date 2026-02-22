@@ -4,7 +4,7 @@
     <img src="./assets/corgi.png" width="200">
 </div>
 
-Zero-dependency message alert js library write by pure javascript. It is can be used anywhere: React, Vue, Angular, Svelte, solid-js...
+Zero-dependency message alert js library written in pure javascript. It is can be used anywhere: React, Vue, Angular, Svelte, solid-js...
 
 ## Installation
 

@@ -16,17 +16,12 @@ npm i welsh-corgi
 
 ```
 import 'welsh-corgi/dist/index.css';
-import { welsh, corgi } from 'welsh-corgi';
+import { corgi } from 'welsh-corgi';
 
-welsh.info('This is a INFO message!');
-welsh.success('This is a SUCCESS message!');
-welsh.warn('This is a WARNING message!');
-welsh.error('This is a ERROR message!');
-
-corgi.bark('This is a INFO message!');
-corgi.yip('This is a SUCCESS message!');
-corgi.gruff('This is a WARNING message!');
-corgi.snarl('This is a ERROR message!');
+corgi.info('This is a INFO message!');
+corgi.success('This is a SUCCESS message!');
+corgi.warn('This is a WARNING message!');
+corgi.error('This is a ERROR message!');
 ```
 
 ## Advanced Options
@@ -39,5 +34,5 @@ type Options = {
     live?: number;
 }
 
-welsh.info(content: RichContent, options?: Options);
+corgi.info(content: RichContent, options?: Options);
 ```

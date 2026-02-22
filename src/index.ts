@@ -143,13 +143,6 @@ function generate(
 }
 
 export const corgi = {
-    bark: generate(MsgType.Info),
-    yip: generate(MsgType.Success),
-    gruff: generate(MsgType.Warn),
-    snarl: generate(MsgType.Error),
-};
-
-export const welsh = {
     info: generate(MsgType.Info),
     success: generate(MsgType.Success),
     warn: generate(MsgType.Warn),

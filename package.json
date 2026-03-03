@@ -1,6 +1,6 @@
 {
     "name": "welsh-corgi",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "type": "module",
     "exports": {
         ".": {
@@ -18,8 +18,8 @@
         "build": "tsc && vite build"
     },
     "devDependencies": {
-        "@types/node": "^25.3.0",
-        "autoprefixer": "^10.4.24",
+        "@types/node": "^25.3.3",
+        "autoprefixer": "^10.4.27",
         "postcss-nesting": "^14.0.0",
         "prettier": "^3.8.1",
         "typescript": "^5.9.3",

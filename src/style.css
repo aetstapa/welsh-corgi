@@ -4,17 +4,10 @@
     padding: 0 10px;
     box-sizing: border-box;
     left: 0;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
     z-index: 100000000000000;
     pointer-events: none;
-    opacity: 1;
-
-    &.corgi-hidden {
-        transform: translate(0, -50px);
-        opacity: 0;
-    }
+    transition: top 0.3s ease-in-out;
+    opacity: 0;
 }
 .corgi {
     box-sizing: border-box;
@@ -111,12 +104,6 @@
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     backdrop-filter: blur(10px);
-    transition: all 0.3s ease-in-out;
-    opacity: 1;
-
-    &.mask-hidden {
-        opacity: 0;
-    }
 }
 .corgi-ask {
     display: flex;

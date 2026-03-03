@@ -1,3 +1,4 @@
+import { animate } from 'motion';
 import './style.css';
 
 interface PopItem {
@@ -25,7 +26,6 @@ interface Config {
 
 type OtherConfig = Omit<Config, 'type' | 'content'>;
 
-const hiddenClass = 'corgi-hidden';
 const gap = 20;
 const live = 2500;
 const pops: PopItem[] = [];
@@ -38,17 +38,31 @@ const nextId = (() => {
     };
 })();
 
+function calcTop(item: PopItem, prev?: PopItem) {
+    item.top = prev ? prev.top + prev.el.clientHeight + gap : gap;
+    item.el.style.top = item.top + 'px';
+}
+
 function animateOut(id: number) {
     for (let i = 0; i < pops.length; i++) {
         if (pops[i].id === id) {
             const [item] = pops.splice(i, 1);
-            item.el.classList.add(hiddenClass);
-            item.el.addEventListener('transitionend', () => {
-                item.el.remove();
-                for (let j = i; j < pops.length; j++) {
-                    calcTop(pops[j], pops[j - 1]);
-                }
-            });
+            animate(
+                item.el,
+                {
+                    opacity: [1, 0],
+                    transform: ['translateY(0px)', 'translateY(-50px)'],
+                },
+                {
+                    duration: 0.3,
+                    onComplete() {
+                        item.el.remove();
+                    },
+                },
+            );
+            for (let j = i; j < pops.length; j++) {
+                calcTop(pops[j], pops[j - 1]);
+            }
             break;
         }
     }
@@ -66,14 +80,9 @@ function insertRichContent(parent: HTMLElement, content: RichContent) {
     }
 }
 
-function calcTop(item: PopItem, prev?: PopItem) {
-    item.top = prev ? prev.top + prev.el.clientHeight + gap : gap;
-    item.el.style.top = item.top + 'px';
-}
-
 function createPopElement(id: number, config: Config): HTMLElement {
     const wrapper = document.createElement('div');
-    wrapper.className = `corgi-wrapper ${hiddenClass}`;
+    wrapper.className = 'corgi-wrapper';
 
     const el = document.createElement('div');
     el.className = `corgi ${config.type}`;
@@ -120,7 +129,19 @@ function popup(config: Config): number {
     calcTop(pops[pops.length - 1], pops[pops.length - 2]);
     document.body.appendChild(el);
     setTimeout(() => {
-        el.classList.remove(hiddenClass);
+        animate(
+            el,
+            {
+                opacity: [0, 1],
+                transform: ['translateY(-50px)', 'translateY(0px)'],
+            },
+            {
+                duration: 0.3,
+                onUpdate(latest) {
+                    console.log(latest);
+                },
+            },
+        );
     }, 0);
     const t = config.live ?? live;
     if (t > 0) {
@@ -183,16 +204,20 @@ async function ask(content: RichContent, config?: AskConfig): Promise<boolean> {
         live: 0,
         title: config?.title,
     });
-    setTimeout(() => {
-        mask.classList.remove('mask-hidden');
-    }, 0);
+    animate(mask, { opacity: [0, 1] }, { duration: 0.3 });
 
     function hide() {
         animateOut(id);
-        mask.classList.add('mask-hidden');
-        mask.addEventListener('transitionend', () => {
-            mask.remove();
-        });
+        animate(
+            mask,
+            { opacity: [1, 0] },
+            {
+                duration: 0.3,
+                onComplete() {
+                    mask.remove();
+                },
+            },
+        );
     }
 
     return new Promise((resolve) => {

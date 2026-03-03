@@ -190,7 +190,7 @@ async function ask(content: RichContent, config?: AskConfig): Promise<boolean> {
     noBtn.classList.add('no');
     actionWrapper.appendChild(noBtn);
     const yesBtn = document.createElement('button');
-    yesBtn.innerText = config?.yes ?? 'OK';
+    yesBtn.innerText = config?.yes ?? 'Yes';
     yesBtn.classList.add((config?.danger ?? false) ? 'danger' : 'yes');
     yesBtn.style.marginLeft = '10px';
     actionWrapper.appendChild(yesBtn);

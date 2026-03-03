@@ -19,9 +19,10 @@ import "welsh-corgi/dist/index.css";
 import { corgi } from "welsh-corgi";
 
 corgi.info("This is a INFO message!");
-corgi.success("This is a SUCCESS message!");
+corgi.success("This is a persistent SUCCESS message!", { live: 0 });
 corgi.warn("This is a WARNING message!");
 corgi.error("This is a ERROR message!");
+corgi.ask("Do you want to quit?");
 ```
 
 ## Advanced Options
@@ -30,9 +31,27 @@ corgi.error("This is a ERROR message!");
 type RichContent = string | HTMLElement | { html: string };
 
 type Options = {
-    title?: RichContent;
-    live?: number;
+  title?: RichContent;
+  live?: number;
+};
+
+interface AskConfig {
+  danger?: boolean;
+  yes?: string;
+  no?: string;
+  title?: RichContent;
 }
 
-corgi.info(content: RichContent, options?: Options);
+declare function ask(
+  content: RichContent,
+  config?: AskConfig,
+): Promise<boolean>;
+
+export declare const corgi: {
+  info: (content: RichContent, config?: OtherConfig) => void;
+  success: (content: RichContent, config?: OtherConfig) => void;
+  warn: (content: RichContent, config?: OtherConfig) => void;
+  error: (content: RichContent, config?: OtherConfig) => void;
+  ask: typeof ask;
+};
 ```

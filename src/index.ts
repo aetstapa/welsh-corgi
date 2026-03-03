@@ -11,6 +11,7 @@ enum MsgType {
     Success = 'success',
     Warn = 'warn',
     Error = 'error',
+    Ask = 'ask',
 }
 
 type RichContent = string | HTMLElement | { html: string };
@@ -28,6 +29,7 @@ const hiddenClass = 'corgi-hidden';
 const gap = 20;
 const live = 2500;
 const pops: PopItem[] = [];
+const zIndex = 1000000;
 
 const nextId = (() => {
     let id = 0;
@@ -35,6 +37,22 @@ const nextId = (() => {
         return id === Number.MAX_SAFE_INTEGER ? 0 : ++id;
     };
 })();
+
+function animateOut(id: number) {
+    for (let i = 0; i < pops.length; i++) {
+        if (pops[i].id === id) {
+            const [item] = pops.splice(i, 1);
+            item.el.classList.add(hiddenClass);
+            item.el.addEventListener('transitionend', () => {
+                item.el.remove();
+                for (let j = i; j < pops.length; j++) {
+                    calcTop(pops[j], pops[j - 1]);
+                }
+            });
+            break;
+        }
+    }
+}
 
 function insertRichContent(parent: HTMLElement, content: RichContent) {
     if (typeof content === 'string') {
@@ -51,19 +69,6 @@ function insertRichContent(parent: HTMLElement, content: RichContent) {
 function calcTop(item: PopItem, prev?: PopItem) {
     item.top = prev ? prev.top + prev.el.clientHeight + gap : gap;
     item.el.style.top = item.top + 'px';
-}
-
-function removeById(id: number) {
-    for (let i = 0; i < pops.length; i++) {
-        if (pops[i].id === id) {
-            const [item] = pops.splice(i, 1);
-            item.el.remove();
-            for (let j = i; j < pops.length; j++) {
-                calcTop(pops[j], pops[j - 1]);
-            }
-            break;
-        }
-    }
 }
 
 function createPopElement(id: number, config: Config): HTMLElement {
@@ -94,21 +99,21 @@ function createPopElement(id: number, config: Config): HTMLElement {
     insertRichContent(contentEl, config.content);
     mainEl.appendChild(contentEl);
 
-    if ((config.live ?? live) <= 0) {
+    if (config.type !== MsgType.Ask && (config.live ?? live) <= 0) {
         const closeEl = document.createElement('span');
         closeEl.className = 'corgi-close';
         closeEl.innerText = '×';
         el.appendChild(closeEl);
 
         closeEl.addEventListener('click', () => {
-            removeById(id);
+            animateOut(id);
         });
     }
 
     return wrapper;
 }
 
-function popup(config: Config) {
+function popup(config: Config): number {
     const id = nextId();
     const el = createPopElement(id, config);
     pops.push({ id, top: 0, el });
@@ -120,14 +125,10 @@ function popup(config: Config) {
     const t = config.live ?? live;
     if (t > 0) {
         setTimeout(() => {
-            if (pops.some((item) => item.id === id)) {
-                el.classList.add(hiddenClass);
-                el.addEventListener('transitionend', () => {
-                    removeById(id);
-                });
-            }
+            animateOut(id);
         }, live);
     }
+    return id;
 }
 
 function generate(
@@ -142,9 +143,74 @@ function generate(
     };
 }
 
+interface AskConfig {
+    danger?: boolean;
+    yes?: string;
+    no?: string;
+    title?: RichContent;
+}
+
+async function ask(content: RichContent, config?: AskConfig): Promise<boolean> {
+    const mask = document.createElement('div');
+    mask.classList.add('corgi-mask');
+    mask.classList.add('mask-hidden');
+    mask.style.zIndex = `${zIndex - 1}`;
+    document.body.appendChild(mask);
+
+    const el = document.createElement('div');
+
+    const contentWrapper = document.createElement('div');
+    insertRichContent(contentWrapper, content);
+
+    const actionWrapper = document.createElement('div');
+    actionWrapper.classList.add('corgi-ask');
+    const noBtn = document.createElement('button');
+    noBtn.innerText = config?.no ?? 'Cancel';
+    noBtn.classList.add('no');
+    actionWrapper.appendChild(noBtn);
+    const yesBtn = document.createElement('button');
+    yesBtn.innerText = config?.yes ?? 'OK';
+    yesBtn.classList.add((config?.danger ?? false) ? 'danger' : 'yes');
+    yesBtn.style.marginLeft = '10px';
+    actionWrapper.appendChild(yesBtn);
+
+    el.appendChild(contentWrapper);
+    el.appendChild(actionWrapper);
+
+    const id = popup({
+        content: el,
+        type: MsgType.Ask,
+        live: 0,
+        title: config?.title,
+    });
+    setTimeout(() => {
+        mask.classList.remove('mask-hidden');
+    }, 0);
+
+    function hide() {
+        animateOut(id);
+        mask.classList.add('mask-hidden');
+        mask.addEventListener('transitionend', () => {
+            mask.remove();
+        });
+    }
+
+    return new Promise((resolve) => {
+        yesBtn.addEventListener('click', () => {
+            resolve(true);
+            hide();
+        });
+        noBtn.addEventListener('click', () => {
+            resolve(false);
+            hide();
+        });
+    });
+}
+
 export const corgi = {
     info: generate(MsgType.Info),
     success: generate(MsgType.Success),
     warn: generate(MsgType.Warn),
     error: generate(MsgType.Error),
+    ask,
 };

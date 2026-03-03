@@ -10,6 +10,36 @@
         <button id="success">success</button>
         <button id="warn">warn</button>
         <button id="error">error</button>
-        <script type="module" src="/src/main.ts"></script>
+        <button id="ask">ask</button>
+        <script type="module">
+            import { corgi } from "./src/index";
+
+            const getElById = document.getElementById.bind(document);
+
+            getElById("info")?.addEventListener("click", () => {
+                corgi.info("hello", { live: 0 });
+            });
+            getElById("success")?.addEventListener("click", () => {
+                corgi.success("success", { live: 0 });
+            });
+            getElById("warn")?.addEventListener("click", () => {
+                corgi.warn("This is warning message", { title: "warning!!!" });
+            });
+            getElById("error")?.addEventListener("click", () => {
+                corgi.error({ html: '<a href="">error</a>' });
+            });
+            getElById("ask")?.addEventListener("click", () => {
+                corgi
+                    .ask("Do you want to quit?", {
+                        danger: true,
+                        yes: "Yes",
+                        no: "Cancel",
+                        title: "Title",
+                    })
+                    .then((ans) => {
+                        console.log(`You choose ${ans}`);
+                    });
+            });
+        </script>
     </body>
 </html>

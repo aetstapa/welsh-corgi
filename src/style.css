@@ -68,6 +68,13 @@
             background-image: url(assets/error.svg);
         }
     }
+    &.ask {
+        background-color: #f3f1f3;
+        border-color: #e7e4e7;
+        & > .flag {
+            background-image: url(assets/ask.svg);
+        }
+    }
 }
 .corgi-main {
     box-sizing: border-box;
@@ -95,4 +102,57 @@
 .corgi-close:hover {
     opacity: 1;
     background-color: #dddddd;
+}
+.corgi-mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+
+    &.mask-hidden {
+        opacity: 0;
+    }
+}
+.corgi-ask {
+    display: flex;
+    justify-content: end;
+    padding-top: 10px;
+
+    & > button {
+        display: inline-block;
+        outline: none;
+        border: none;
+        padding: 4px 8px;
+        font-weight: bold;
+        border-radius: calc(infinity * 1px);
+        cursor: pointer;
+        border: 1px solid transparent;
+        background-color: transparent;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+            background-color: #dddddd;
+        }
+        &:active {
+            background-color: #bbbbbb;
+        }
+        &.yes {
+            color: #5a7fed;
+            border-color: #5a7fed;
+        }
+        &.no {
+            color: #473c39;
+            &:hover {
+                border-color: #473c39;
+            }
+        }
+        &.danger {
+            color: #e7000b;
+            border-color: #e7000b;
+        }
+    }
 }

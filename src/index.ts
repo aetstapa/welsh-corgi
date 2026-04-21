@@ -111,7 +111,6 @@ function createPopElement(id: number, config: Config): HTMLElement {
     if (config.type !== MsgType.Ask && (config.live ?? live) <= 0) {
         const closeEl = document.createElement('span');
         closeEl.className = 'corgi-close';
-        closeEl.innerText = '×';
         el.appendChild(closeEl);
 
         closeEl.addEventListener('click', () => {

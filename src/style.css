@@ -12,11 +12,12 @@
 .corgi {
     box-sizing: border-box;
     position: relative;
+    max-width: 1000px;
     left: 50%;
     transform: translate(-50%, 0);
     border: 1px solid;
     border-radius: 24px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
     display: inline-flex;
     align-items: center;
     padding: 10px 16px;
@@ -25,13 +26,14 @@
     & > .flag {
         box-sizing: border-box;
         display: inline-block;
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         opacity: 0.7;
         margin-right: 8px;
+        flex-shrink: 0;
     }
     &.info {
         background-color: #e6f4ff;
@@ -82,19 +84,19 @@
     display: inline-block;
     width: 26px;
     height: 26px;
-    line-height: 26px;
-    font-size: 20px;
-    text-align: center;
+    background: url(assets/close.svg) no-repeat;
+    background-position: center;
+    background-size: 20px;
     border-radius: 50%;
     cursor: pointer;
     flex-shrink: 0;
-    opacity: 0.6;
+    opacity: 0.5;
     transition: background-color 0.3s ease-in-out;
     margin-left: 8px;
 }
 .corgi-close:hover {
     opacity: 1;
-    background-color: #dddddd;
+    background-color: #cccccc;
 }
 .corgi-mask {
     position: fixed;

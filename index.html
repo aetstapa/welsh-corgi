@@ -6,6 +6,10 @@
         <title>Corgi</title>
     </head>
     <body>
+        <label>
+            <input type="checkbox" id="dir" />
+            RTL
+        </label>
         <button id="info">info</button>
         <button id="success">success</button>
         <button id="warn">warn</button>
@@ -13,6 +17,14 @@
         <button id="ask">ask</button>
         <script type="module">
             import { corgi } from "./src/index";
+
+            document.getElementById("dir").addEventListener("change", (e) => {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute("dir", "rtl");
+                } else {
+                    document.documentElement.removeAttribute("dir");
+                }
+            });
 
             const getElById = document.getElementById.bind(document);
 

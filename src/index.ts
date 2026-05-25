@@ -191,7 +191,6 @@ async function ask(content: RichContent, config?: AskConfig): Promise<boolean> {
     const yesBtn = document.createElement('button');
     yesBtn.innerText = config?.yes ?? 'Yes';
     yesBtn.classList.add((config?.danger ?? false) ? 'danger' : 'yes');
-    yesBtn.style.marginLeft = '10px';
     actionWrapper.appendChild(yesBtn);
 
     el.appendChild(contentWrapper);
